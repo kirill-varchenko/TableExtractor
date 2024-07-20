@@ -66,9 +66,9 @@ class Extractor {
                             int rawNumber = (int) Double.parseDouble(cell.getRawValue())
                             if (rawNumber < rawNumBound) {
                                 log.debug("Wrong date format: {}", cell.getAddress())
-                                return String.valueOf(rawNumber);
+                                return String.valueOf(rawNumber)
                             }
-                        } catch (NumberFormatException ex) {
+                        } catch (NumberFormatException ignored) {
 
                         }
                         return cell.getLocalDateTimeCellValue().toLocalDate().toString()

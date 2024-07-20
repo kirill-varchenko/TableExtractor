@@ -1,6 +1,14 @@
 # TableExtractor
 
-## Example definition
+This project defines a Groovy-based DSL for extracting data from an Excel sheet with minor transformations and saving to a .tsv file.
+
+## Usage
+
+```
+java -jar TableExtractor <TableDescriptionFile> <ExcelFile>
+```
+
+## Example table definition
 ```
 table {
     source "mh5"
@@ -15,7 +23,7 @@ table {
                 
     rename Ct_SC2_LмV : "ct", DOD : "delivery_date", DOO : "disease_date", DOC : "collection_date", 
            MH_ID : "lmv_id", Organization : "organization", City : "city", Gender : "patient_sex", 
-           Note : "comment", Region : "subject", Speciмen_type: "specimen"
+           Note : "comment", Region : "subject", Speciмen_type : "specimen"
            
     rows {
         concat "Vaccination_status", "Vaccine_naмe", "DOLV" to "vaccination"
