@@ -1,33 +1,41 @@
 # TableExtractor
 
-This project defines a Groovy-based DSL for extracting data from an Excel sheet with minor transformations and saving to a .tsv file.
+This project defines a Groovy-based DSL for extracting data from an Excel sheet with minor transformations and output in tsv format.
 
 ## Usage
 
 ```
-java -jar TableExtractor <TableDescriptionFile> <ExcelFile>
+java -jar TableExtractor <DescriptionFile> <ExcelFile>
 ```
 
-## Example table definition
-```
-table {
-    source "mh5"
-    
-    useSheet "Лист1"
-    
-    useColumns "Organization", "Gender", "Age", "DOB", "Children_age", "DOO", "DOC",
-               "MH_ID", "Vaccination_status", "Vaccine_naмe", "DOLV", "Note", "Region", "City",
-               "DOD", "Ct_SC2_LмV", "Speciмen_type"
-    
-    startRow 4
-                
-    rename Ct_SC2_LмV : "ct", DOD : "delivery_date", DOO : "disease_date", DOC : "collection_date", 
-           MH_ID : "lmv_id", Organization : "organization", City : "city", Gender : "patient_sex", 
-           Note : "comment", Region : "subject", Speciмen_type : "specimen"
-           
-    rows {
-        concat "Vaccination_status", "Vaccine_naмe", "DOLV" to "vaccination"
-        coalesce "DOB", "Age", "Children_age" to "patient_age"
-    }
-}
-```
+## Available commands
+
+### Input
+
+`useSheets <names or regex>` list of names or regex for input sheets
+
+`headerRow <num>` header row
+
+`firstRow <num>` first row of data 
+
+`sheetNameColumn <name>` put sheet name to given column
+
+### Operations
+
+`coalesce <col1>, <col2>... to <col>` extract first non null value to column
+
+`concat <col1>, <col2>... to <col>` concatenate columns with " " to column
+
+`dropNA <col1>, <col2>` drop rows if any of columns is null
+
+`extract <pattern> from <col> to <col>` extract with regex to column 
+
+`filter <col> eq <value>` or `filter <col> like <pattern>` filter row by value or regex
+
+`put <value> to <col>` put static value to column
+
+`rename <old1>: <new1>, <old2>: <new2>...` rename columns with mapping
+
+### Output
+
+`output <col1>, <col2>...` output with given columns and order
